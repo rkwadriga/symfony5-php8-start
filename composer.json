@@ -1,0 +1,31 @@
+{
+  "name": "rkwadriga/php-json-parser",
+  "type": "library",
+  "description": "Program for studying PHP 8",
+  "version": "1.0.0",
+  "homepage": "https://github.com/rkwadriga/json-parser",
+  "license": "GPL",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "rkwadriga",
+      "email": "remkwadriga2013@gmail.com",
+      "role": "Owner"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "phpunit/phpunit": "^10.0",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  }
+}
