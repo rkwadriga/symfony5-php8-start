@@ -1,9 +1,9 @@
 {
-  "name": "rkwadriga/php-json-parser",
+  "name": "rkwadriga/symfony5-php8-start",
   "type": "library",
-  "description": "Program for studying PHP 8",
+  "description": "Start symfony API server with authentication system",
   "version": "1.0.0",
-  "homepage": "https://github.com/rkwadriga/json-parser",
+  "homepage": "https://github.com/rkwadriga/symfony5-php8-start",
   "license": "GPL",
   "minimum-stability": "dev",
   "authors": [
@@ -83,6 +83,7 @@
     }
   },
   "require-dev": {
+    "doctrine/data-fixtures": "dev-doctrinecommon as 1.4.3",
     "fzaninotto/faker": "1.9.x-dev",
     "sensiolabs/security-checker": "6.0.x-dev",
     "symfony/browser-kit": "5.3.*",
@@ -92,5 +93,11 @@
     "symfony/phpunit-bridge": "6.0.x-dev",
     "symfony/stopwatch": "5.3.*",
     "symfony/web-profiler-bundle": "5.3.*"
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/fruitwasp/data-fixtures"
+    }
+  ]
 }

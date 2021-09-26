@@ -32,5 +32,6 @@ services:
     command: ["composer", "install"]
     volumes:
       - ./:/app/
+      - ./.docker/composer/tmp/:/tmp/
     depends_on:
       - php
