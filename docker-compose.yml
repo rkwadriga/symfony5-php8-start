@@ -13,6 +13,8 @@ services:
       MYSQL_PASSWORD: admin
   php: # docker-compose run php bash
     build: './.docker/php'
+    ports:
+      - "8080:80"
     tty: true
     environment:
       PHP_IDE_CONFIG: "serverName=Docker"
