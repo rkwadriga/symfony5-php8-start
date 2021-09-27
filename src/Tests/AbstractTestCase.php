@@ -9,7 +9,7 @@ namespace App\Tests;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-abstract class AbstractTest extends TestCase
+abstract class AbstractTestCase extends TestCase
 {
     protected function getPrivateProperty(object $object, string $propertyName): mixed
     {

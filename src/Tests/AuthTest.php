@@ -2,7 +2,7 @@
 
 namespace App\Tests;
 
-class AuthTest extends AbstractTest
+class AuthTest extends AbstractTestCase
 {
     public function testSomething(): void
     {

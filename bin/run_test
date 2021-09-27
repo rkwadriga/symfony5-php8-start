@@ -1,18 +1,16 @@
 #!/usr/bin/env php
 <?php
-$command = "./bin/phpunit";
-$testPath = isset($argv[1]) ? $argv[1] : null;
+$testsPath = 'src/Tests';
+$testName = isset($argv[1]) ? $argv[1] : null;
 
-if ($testPath !== null) {
-    if (!str_contains($testPath, 'src/Tests/')) {
-        $testPath = 'src/Tests/' . $testPath;
+if ($testName !== null) {
+    $testFullPath = dirname(__DIR__) . "/{$testsPath}/{$testName}";
+    if (!is_dir($testFullPath) && pathinfo($testName, PATHINFO_EXTENSION) !== 'php') {
+        $testName .= '.php';
     }
-    if (pathinfo($testPath, PATHINFO_EXTENSION) !== 'php') {
-        $testPath .= '.php';
-    }
-    $command .= ' ' . $testPath;
+    $testsPath .= '/' . $testName;
 }
 
 
-exec($command, $output);
+exec("./bin/phpunit {$testsPath}", $output);
 echo implode("\n", $output), "\n";
