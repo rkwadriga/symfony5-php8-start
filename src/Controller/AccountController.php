@@ -24,7 +24,7 @@ class AccountController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      *
-     * @Route("account", name="app_account_create", methods={"PUT"})
+     * @Route("account", name="account_create", methods={"PUT"})
      */
     public function create(Request $request): JsonResponse
     {

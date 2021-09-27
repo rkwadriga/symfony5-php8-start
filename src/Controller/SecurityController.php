@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("token", name="app_security_login", methods={"PUT"})
+     * @Route("/token", name="security_login", methods={"PUT"})
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -33,7 +33,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="app_security_logout")
+     * @Route("/token", name="security_logout", methods={"DELETE"})
      */
     public function logout()
     {

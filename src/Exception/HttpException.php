@@ -6,10 +6,11 @@
 
 namespace App\Exception;
 
-use Symfony\Component\HttpKernel\Exception\HttpException as BaseException;
+use Symfony\Component\HttpKernel\Exception\HttpException as BaseHttpException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class HttpException extends BaseException
+class HttpException extends BaseHttpException
 {
     protected $message = 'Something went wrong!';
 
@@ -25,8 +26,10 @@ class HttpException extends BaseException
                 $statusCode = Response::HTTP_BAD_REQUEST;
             } elseif ($exception instanceof AuthException) {
                 $statusCode = $exception->getCode();
-            } elseif ($exception instanceof BaseException) {
+            } elseif ($exception instanceof BaseHttpException) {
                 $statusCode = $exception->getStatusCode();
+            } elseif ($exception instanceof AuthenticationException) {
+                $statusCode = Response::HTTP_BAD_REQUEST;
             }
         }
 

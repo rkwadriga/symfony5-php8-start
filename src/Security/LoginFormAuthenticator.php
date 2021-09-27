@@ -2,57 +2,65 @@
 
 namespace App\Security;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Entity\User;
+use App\Helpers\JsonResponseHelper;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use App\Helpers\JsonRequestHelper;
 
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_security_login';
+    public const LOGIN_ROUTE = 'security_login';
 
-    private UrlGeneratorInterface $urlGenerator;
+    private static array $allowedRoutes = [
+        self::LOGIN_ROUTE,
+    ];
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(
+        private UrlGeneratorInterface $urlGenerator,
+        private JsonRequestHelper $jsonRequestHelper,
+        private JsonResponseHelper $jsonResponseHelper
+    ) {}
+
+    public function supports(Request $request): bool
     {
-        $this->urlGenerator = $urlGenerator;
+        return in_array($request->attributes->get('_route'), self::$allowedRoutes);
     }
 
     public function authenticate(Request $request): PassportInterface
     {
-        $username = $request->request->get('username', '');
-
-        $request->getSession()->set(Security::LAST_USERNAME, $username);
+        $requestParams = $this->jsonRequestHelper->getParams($request);
+        $username = isset($requestParams['username']) ? $requestParams['username'] : null;
+        $password = isset($requestParams['password']) ? $requestParams['password'] : null;
 
         return new Passport(
             new UserBadge($username),
-            new PasswordCredentials($request->request->get('password', '')),
-            [
-                new CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
-            ]
+            new PasswordCredentials($password)
         );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
-        }
+        /** @var User $user */
+        $user = $token->getUser();
+        return new JsonResponse(['id' => $user->getId(), 'email' => $user->getEmail(), 'name' => $user->getName()]);
+    }
 
-        // For example:
-        //return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
+    {
+        return $this->jsonResponseHelper->createErrorException($exception);
     }
 
     protected function getLoginUrl(Request $request): string
