@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+$command = "./bin/phpunit";
+$testPath = isset($argv[1]) ? $argv[1] : null;
+
+if ($testPath !== null) {
+    if (!str_contains($testPath, 'src/Tests/')) {
+        $testPath = 'src/Tests/' . $testPath;
+    }
+    if (pathinfo($testPath, PATHINFO_EXTENSION) !== 'php') {
+        $testPath .= '.php';
+    }
+    $command .= ' ' . $testPath;
+}
+
+
+exec($command, $output);
+echo implode("\n", $output), "\n";

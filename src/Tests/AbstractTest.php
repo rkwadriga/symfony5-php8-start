@@ -4,7 +4,7 @@
  * Author Dmitry Kushneriov
  */
 
-namespace Tests;
+namespace App\Tests;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
