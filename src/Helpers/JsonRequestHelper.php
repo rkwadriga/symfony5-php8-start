@@ -11,10 +11,10 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class JsonRequestHelper
 {
-    public function getParams(Request $request): array
+    public function prepareRequest(Request $request): Request
     {
         if ($request->getContentType() !== 'json' || empty($request->getContent())) {
-            return [];
+            return $request;
         }
 
         $data = json_decode($request->getContent(), true);
@@ -22,6 +22,8 @@ class JsonRequestHelper
             throw new BadRequestHttpException('invalid json body: ' . json_last_error_msg());
         }
 
-        return $data;
+        $request->request->add($data);
+
+        return $request;
     }
 }

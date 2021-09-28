@@ -46,4 +46,16 @@ class AccountController extends AbstractController
             throw new HttpException($e);
         }
     }
+
+    /**
+     * @return JsonResponse
+     *
+     * @Route("account", name="account_info", methods={"GET"})
+     */
+    public function info()
+    {
+        $user = $this->getUser();
+
+        return $this->json($user);
+    }
 }

@@ -1,15 +1,14 @@
-<?php declare(strict_types=1);
+<?php
 /**
- * Created 2021-05-29
+ * Created 2021-09-28
  * Author Dmitry Kushneriov
  */
 
 namespace App\Tests;
 
-use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-abstract class AbstractTestCase extends TestCase
+trait ReflectionHelper
 {
     protected function getPrivateProperty(object $object, string $propertyName): mixed
     {

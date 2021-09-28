@@ -29,8 +29,6 @@ class BeforeActionSubscriber implements EventSubscriberInterface
 
     public function convertJsonStringToArray(ControllerEvent $event): void
     {
-        $request = $event->getRequest();
-        $requestParams = $this->jsonRequestHelper->getParams($request);
-        $request->request->replace($requestParams);
+        $this->jsonRequestHelper->prepareRequest($event->getRequest());
     }
 }

@@ -74,7 +74,7 @@ class AfterActionSubscriber implements EventSubscriberInterface
             'Access-Control-Allow-Methods' => implode(', ', $this->_allowedMethods),
             'Access-Control-Allow-Headers' => implode(', ', $this->_allowedHeaders),
             'Access-Control-Max-Age' => 1728000,
-            'Content-Type' => 'text/plain charset=UTF-8',
+            'Content-Type' => 'application/json',
             'Content-Length' => 0
         ];
     }
